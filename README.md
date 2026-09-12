@@ -2,6 +2,8 @@
 
 A responsive falling-block game built with TypeScript, Vite, Tailwind CSS, and daisyUI. No account or backend is required.
 
+It is also an installable Progressive Web App. Once visited online, the game and its interface are cached for offline play. Supported browsers show an Install action; installed copies open in a standalone window and notify you when a new version is ready. Profile data, scores, and preferences remain local to the installed browser profile.
+
 Play the published game on [GitHub Pages](https://haledavidson085-web.github.io/Tetris/).
 
 ## Run locally

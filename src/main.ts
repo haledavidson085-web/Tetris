@@ -3,6 +3,7 @@ import './personal.css';
 import { Game, SHAPES, COLS, ROWS, type Kind, type Mode } from './game';
 import { PlayerStore, THEMES, type Run } from './player';
 import { mountPersonalFeatures } from './personal-ui';
+import { mountPwa } from './pwa';
 
 const icons: Record<string, string> = {
   play: '<path d="m8 5 11 7-11 7Z"/>',
@@ -19,6 +20,7 @@ const icons: Record<string, string> = {
   keyboard: '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M7 15h10"/>',
   settings: '<path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3" fill="var(--color-base-100)"/><circle cx="16" cy="17" r="3" fill="var(--color-base-100)"/>',
   shield: '<path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z"/><path d="m8 12 3 3 5-6"/>',
+  download: '<path d="M12 3v12m-5-5 5 5 5-5M5 21h14"/>',
 };
 const icon = (name: string, size = 20) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name] ?? icons.spark}</svg>`;
 const key = (text: string) => `<kbd class="kbd kbd-sm">${text}</kbd>`;
@@ -34,6 +36,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <a class="brand" href="./" aria-label="Tetris home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>tetris<span class="brand-dot">.</span></span></a>
     <span class="header-note">ONE BLOCK AT A TIME.</span>
     <nav class="header-actions" aria-label="Player menu">
+      <button class="btn btn-ghost help-button" id="install-button" aria-label="Install Tetris" title="Install Tetris" hidden>${icon('download',18)}<span>Install</span></button>
       <button class="btn btn-ghost help-button" id="help-button" aria-label="How to play" title="How to play">${icon('help',18)}<span>How to play</span></button>
       <button class="btn btn-ghost help-button" id="scores-button" aria-label="High scores" title="High scores">${icon('trophy',18)}<span>High scores</span></button>
       <button class="btn btn-ghost help-button" id="settings-button" aria-label="Settings" title="Settings">${icon('settings',18)}<span>Settings</span></button>
@@ -287,6 +290,7 @@ window.addEventListener('blur', () => { keys.clear(); if (game.status === 'playi
 document.addEventListener('visibilitychange', () => { if (document.hidden && game.status === 'playing') pause(); });
 let last = performance.now();
 const personalFeatures = mountPersonalFeatures({store:player,icon,openDialog,onSettingsChange:applySettings,currentMode:()=>game.mode});
+mountPwa(icon);
 applySettings();
 function frame(now: number) {
   const delta = Math.min(now-last,100); last = now;
