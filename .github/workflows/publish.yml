@@ -109,4 +109,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ steps.version.outputs.tag }}
-        run: gh release create "$RELEASE_TAG" "tetris-${RELEASE_TAG}.zip" --repo "$GITHUB_REPOSITORY" --verify-tag --generate-notes --title "Tetris ${RELEASE_TAG}"
+        run: |
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" "tetris-${RELEASE_TAG}.zip" --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$RELEASE_TAG" "tetris-${RELEASE_TAG}.zip" --repo "$GITHUB_REPOSITORY" --verify-tag --generate-notes --title "Tetris ${RELEASE_TAG}"
+          fi
