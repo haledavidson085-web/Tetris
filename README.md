@@ -41,9 +41,11 @@ Opening a panel pauses an active game; closing it resumes only if it was playing
 
 ## Publishing
 
-The `Publish` GitHub Actions workflow runs all tests, creates the production build, deploys it to GitHub Pages, and attaches a ZIP of the same build to a GitHub Release. Push a semantic version tag to publish:
+The `Publish` GitHub Actions workflow runs all tests and creates the production build. A push to `main` deploys that build to GitHub Pages. A semantic version tag creates a GitHub Release with the same build attached as a ZIP:
 
 ```sh
 git tag v1.0.0
 git push origin v1.0.0
 ```
+
+The workflow can also be started manually with an existing release tag; a manual run performs both publishing steps.
